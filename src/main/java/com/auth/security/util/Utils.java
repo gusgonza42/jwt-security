@@ -8,4 +8,9 @@ public class Utils {
         String reset = "\u001B[0m";
         return color + emoji + " Usuario " + username + " ha realizado la acción: " + action + " " + emoji + reset;
     }
+
+    public static Void printMessage( String message ) {
+        System.out.println( message );
+        return null;
+    }
 }

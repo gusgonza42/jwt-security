@@ -1,4 +1,4 @@
-package com.auth.security.service;
+package com.auth.security.util;
 
     import com.auth0.jwt.JWT;
     import com.auth0.jwt.algorithms.Algorithm;
@@ -14,7 +14,7 @@ package com.auth.security.service;
     import org.springframework.security.core.userdetails.User;
 
     @Service
-    public class JwtTokenService {
+    public class JwtTokenUtils {
         @Value("${jwt.secret}")
         private String secretKey;
 

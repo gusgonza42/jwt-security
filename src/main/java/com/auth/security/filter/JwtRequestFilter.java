@@ -1,6 +1,6 @@
 package com.auth.security.filter;
 
-import com.auth.security.service.JwtTokenService;
+import com.auth.security.util.JwtTokenUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,10 +12,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 public class JwtRequestFilter extends OncePerRequestFilter {
-    private final JwtTokenService jwtTokenService;
+    private final JwtTokenUtils jwtTokenUtils;
 
-    public JwtRequestFilter( JwtTokenService jwtTokenService ) {
-        this.jwtTokenService = jwtTokenService;
+    public JwtRequestFilter( JwtTokenUtils jwtTokenUtils ) {
+        this.jwtTokenUtils = jwtTokenUtils;
     }
 
     @Override
@@ -28,19 +28,24 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             token = authorizationHeader.substring( 7 );
         }
 
-        if ( token != null ) {
-            if ( jwtTokenService.isTokenExpired( token ) ) {
-                String refreshedToken = jwtTokenService.refreshToken( jwtTokenService.extractUsername( token ) );
-                response.setHeader( "Authorization" , "Bearer " + refreshedToken );
-            } else if ( jwtTokenService.isTokenNearExpiry( token ) ) {
-                String refreshedToken = jwtTokenService.refreshToken( jwtTokenService.extractUsername( token ) );
-                response.setHeader( "Authorization" , "Bearer " + refreshedToken );
-                UsernamePasswordAuthenticationToken auth = jwtTokenService.getAuthentication( refreshedToken );
-                SecurityContextHolder.getContext( ).setAuthentication( auth );
-            } else if ( jwtTokenService.isValidToken( token ) ) {
-                UsernamePasswordAuthenticationToken auth = jwtTokenService.getAuthentication( token );
-                SecurityContextHolder.getContext( ).setAuthentication( auth );
+        try {
+            if ( token != null ) {
+                if ( jwtTokenUtils.isTokenExpired( token ) ) {
+                    String refreshedToken = jwtTokenUtils.refreshToken( jwtTokenUtils.extractUsername( token ) );
+                    response.setHeader( "Authorization" , "Bearer " + refreshedToken );
+                } else if ( jwtTokenUtils.isTokenNearExpiry( token ) ) {
+                    String refreshedToken = jwtTokenUtils.refreshToken( jwtTokenUtils.extractUsername( token ) );
+                    response.setHeader( "Authorization" , "Bearer " + refreshedToken );
+                    UsernamePasswordAuthenticationToken auth = jwtTokenUtils.getAuthentication( refreshedToken );
+                    SecurityContextHolder.getContext( ).setAuthentication( auth );
+                } else if ( jwtTokenUtils.isValidToken( token ) ) {
+                    UsernamePasswordAuthenticationToken auth = jwtTokenUtils.getAuthentication( token );
+                    SecurityContextHolder.getContext( ).setAuthentication( auth );
+                }
             }
+        } catch ( Exception e ) {
+            response.sendError( HttpServletResponse.SC_UNAUTHORIZED , "Invalido o el token esta caducado" );
+            return;
         }
 
         filterChain.doFilter( request , response );
