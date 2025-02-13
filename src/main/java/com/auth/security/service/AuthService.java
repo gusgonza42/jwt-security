@@ -4,14 +4,15 @@ import com.auth.security.dto.AuthRequest;
 import com.auth.security.dto.AuthResponse;
 import com.auth.security.model.User;
 import com.auth.security.repository.UserRepository;
+import com.auth.security.util.AuthConstants;
 import com.auth.security.util.JwtTokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import static com.auth.security.util.Utils.createCustomMessage;
-import static com.auth.security.util.Utils.printMessage;
+import static com.auth.security.util.Utils.printMssg;
+
 
 @Service
 public class AuthService {
@@ -25,41 +26,57 @@ public class AuthService {
     }
 
     public ResponseEntity< String > getHello( ) {
-        printMessage( "Get From Api" );
-        return ResponseEntity.status( HttpStatus.OK ).body( "Hello from Auth Project" );
+        printMssg( AuthConstants.HELLO_FROM_AUTH_PROJECT );
+        return ResponseEntity.status( HttpStatus.OK ).body( AuthConstants.HELLO_FROM_AUTH_PROJECT );
     }
 
     public ResponseEntity< AuthResponse > login( AuthRequest authRequest ) {
-        User user = userRepository.findByUsername( authRequest.getUsername( ) );
-        if ( user == null ) {
-            user = userRepository.findByEmail( authRequest.getEmail( ) );
-        }
-        if ( user == null || ! user.getPassword( ).equals( authRequest.getPassword( ) ) ) {
-            return ResponseEntity.status( HttpStatus.UNAUTHORIZED ).body( null );
-        }
+        try {
+            if ( authRequest.getUsername( ) == null && authRequest.getEmail( ) == null && authRequest.getPassword( ) == null ) {
+                return ResponseEntity.status( HttpStatus.BAD_REQUEST ).body( new AuthResponse( null , AuthConstants.CREDENTIALS_REQUIRED ) );
+            }
+            User user = userRepository.findByUsername( authRequest.getUsername( ) );
+            if ( user == null ) {
+                user = userRepository.findByEmail( authRequest.getEmail( ) );
+            }
+            if ( user == null ) {
+                return ResponseEntity.status( HttpStatus.NOT_FOUND ).body( new AuthResponse( null , AuthConstants.USER_NOT_EXISTS ) );
+            }
+            if ( ! user.getPassword( ).equals( authRequest.getPassword( ) ) ) {
+                return ResponseEntity.status( HttpStatus.UNAUTHORIZED ).body( new AuthResponse( null , AuthConstants.INVALID_CREDENTIALS ) );
+            }
 
-        String token = user.getToken( );
-        if ( token == null || ! jwtTokenUtils.isValidToken( token ) ) {
-            token = jwtTokenUtils.generateToken( user.getUsername( ) );
-            user.setToken( token );
-            userRepository.save( user );
-        }
+            String token = user.getToken( );
+            if ( token == null || ! jwtTokenUtils.isValidToken( token ) ) {
+                token = jwtTokenUtils.generateToken( user.getUsername( ) );
+                user.setToken( token );
+                printMssg( AuthConstants.TOKEN_CREATED_OR_UPDATED );
+                userRepository.save( user );
+            }
 
-        AuthResponse authResponse = new AuthResponse( token );
-        String message = createCustomMessage( user.getUsername( ) , "login" );
-        System.out.println( message );
-        return ResponseEntity.status( HttpStatus.OK ).body( authResponse );
+            printMssg( user.getUsername( ) + " logged in" );
+
+            return ResponseEntity.status( HttpStatus.OK ).body( new AuthResponse( token , AuthConstants.USER_LOGGED_IN ) );
+        } catch ( Exception e ) {
+            printMssg( e.getMessage( ) );
+            return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body( new AuthResponse( null , AuthConstants.INTERNAL_SERVER_ERROR ) );
+        }
     }
 
     public ResponseEntity< AuthResponse > register( AuthRequest authRequest ) {
-        User userByUsername = userRepository.findByUsername( authRequest.getUsername( ) );
         User userByEmail = userRepository.findByEmail( authRequest.getEmail( ) );
-
-        if ( userByUsername != null || userByEmail != null ) {
-            return ResponseEntity.status( HttpStatus.CONFLICT ).body( null );
+        if ( userByEmail != null ) {
+            return ResponseEntity.status( HttpStatus.CONFLICT )
+                    .body( new AuthResponse( null , AuthConstants.EMAIL_ALREADY_EXISTS ) );
         }
 
-        // Aquí puedes agregar la lógica de registro del usuario
+        User userByUsername = userRepository.findByUsername( authRequest.getUsername( ) );
+        if ( userByUsername != null ) {
+            return ResponseEntity.status( HttpStatus.CONFLICT )
+                    .body( new AuthResponse( null , AuthConstants.USERNAME_ALREADY_EXISTS ) );
+        }
+
+
         String token = jwtTokenUtils.generateToken( authRequest.getUsername( ) );
         User user = new User( );
         user.setUsername( authRequest.getUsername( ) );
@@ -68,9 +85,7 @@ public class AuthService {
         user.setToken( token );
         userRepository.save( user );
 
-        AuthResponse authResponse = new AuthResponse( token );
-        String message = createCustomMessage( authRequest.getUsername( ) , "register" );
-        System.out.println( message );
-        return ResponseEntity.status( HttpStatus.CREATED ).body( authResponse );
+        printMssg( user.getUsername( ) + " registered" );
+        return ResponseEntity.status( HttpStatus.CREATED ).body( new AuthResponse(token, AuthConstants.USER_REGISTERED_SUCCESSFULLY));
     }
 }
