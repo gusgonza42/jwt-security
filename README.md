@@ -158,17 +158,35 @@ Authorization: Bearer <tu_token_jwt>
     server.port=8081
 
     # Propiedades para JWT
-    jwt.secret=YjURpmFMjkcw4Ltx8hfzC60U6JZJ7MLSjduhtsJt7ZA/yj+qJW6h75rOXfIS4ecjsZVJMt/cs3F1vLro4Rlf4w==
+    jwt.secret="CreateYourOwnSecretKey"
     jwt.expiration=3600000
     jwt.refreshThreshold=600000
     ```
+4️⃣ Dependencias Necesarias
 
-4️⃣ **Ejecuta la aplicación:**
+Para que funcione correctamente en tu aplicación, asegúrate de tener las siguientes dependencias en tu archivo pom.xml (si usas Maven):
 
-    ```sh
+   ```xml
+         <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-web</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-security</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>com.auth0</groupId>
+             <artifactId>java-jwt</artifactId>
+         </dependency>
+   ```
+
+5️⃣ **Ejecuta la aplicación:**
+
+ ```sh
     mvn clean install
     mvn spring-boot:run
-    ```
+ ```
 
 ---
 
