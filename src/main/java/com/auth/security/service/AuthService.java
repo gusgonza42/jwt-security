@@ -2,6 +2,7 @@ package com.auth.security.service;
 
 import com.auth.security.dto.AuthRequest;
 import com.auth.security.dto.AuthResponse;
+import com.auth.security.model.Message;
 import com.auth.security.model.User;
 import com.auth.security.repository.UserRepository;
 import com.auth.security.util.AuthConstants;
@@ -30,20 +31,26 @@ public class AuthService {
         return ResponseEntity.status( HttpStatus.OK ).body( AuthConstants.HELLO_FROM_AUTH_PROJECT );
     }
 
-    public ResponseEntity< AuthResponse > login( AuthRequest authRequest ) {
+    public ResponseEntity< ? > login( AuthRequest authRequest ) {
         try {
-            if ( authRequest.getUsername( ) == null && authRequest.getEmail( ) == null && authRequest.getPassword( ) == null ) {
-                return ResponseEntity.status( HttpStatus.BAD_REQUEST ).body( new AuthResponse( null , AuthConstants.CREDENTIALS_REQUIRED ) );
+            if ( ( authRequest.getUsername( ) == null || authRequest.getUsername( ).isEmpty( ) ) &&
+                    ( authRequest.getEmail( ) == null || authRequest.getEmail( ).isEmpty( ) ) ) {
+                return ResponseEntity.status( HttpStatus.BAD_REQUEST ).body( new Message( AuthConstants.CREDENTIALS_REQUIRED ) );
             }
-            User user = userRepository.findByUsername( authRequest.getUsername( ) );
-            if ( user == null ) {
+
+            User user;
+            if ( authRequest.getUsername( ) != null && ! authRequest.getUsername( ).isEmpty( ) ) {
+                user = userRepository.findByUsername( authRequest.getUsername( ) );
+            } else {
                 user = userRepository.findByEmail( authRequest.getEmail( ) );
             }
+
             if ( user == null ) {
-                return ResponseEntity.status( HttpStatus.NOT_FOUND ).body( new AuthResponse( null , AuthConstants.USER_NOT_EXISTS ) );
+                return ResponseEntity.status( HttpStatus.NOT_FOUND ).body( new Message( AuthConstants.USER_NOT_EXISTS ) );
             }
+
             if ( ! user.getPassword( ).equals( authRequest.getPassword( ) ) ) {
-                return ResponseEntity.status( HttpStatus.UNAUTHORIZED ).body( new AuthResponse( null , AuthConstants.INVALID_CREDENTIALS ) );
+                return ResponseEntity.status( HttpStatus.UNAUTHORIZED ).body( new Message( AuthConstants.INVALID_CREDENTIALS ) );
             }
 
             String token = user.getToken( );
@@ -56,24 +63,24 @@ public class AuthService {
 
             printMssg( user.getUsername( ) + " logged in" );
 
-            return ResponseEntity.status( HttpStatus.OK ).body( new AuthResponse( token , AuthConstants.USER_LOGGED_IN ) );
+            return ResponseEntity.status( HttpStatus.OK ).body( new AuthResponse( token ) );
         } catch ( Exception e ) {
             printMssg( e.getMessage( ) );
-            return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body( new AuthResponse( null , AuthConstants.INTERNAL_SERVER_ERROR ) );
+            return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body( new Message( AuthConstants.INTERNAL_SERVER_ERROR ) );
         }
     }
 
-    public ResponseEntity< AuthResponse > register( AuthRequest authRequest ) {
+    public ResponseEntity< ? > register( AuthRequest authRequest ) {
         User userByEmail = userRepository.findByEmail( authRequest.getEmail( ) );
         if ( userByEmail != null ) {
             return ResponseEntity.status( HttpStatus.CONFLICT )
-                    .body( new AuthResponse( null , AuthConstants.EMAIL_ALREADY_EXISTS ) );
+                    .body( new Message( AuthConstants.EMAIL_ALREADY_EXISTS ) );
         }
 
         User userByUsername = userRepository.findByUsername( authRequest.getUsername( ) );
         if ( userByUsername != null ) {
             return ResponseEntity.status( HttpStatus.CONFLICT )
-                    .body( new AuthResponse( null , AuthConstants.USERNAME_ALREADY_EXISTS ) );
+                    .body( new Message( AuthConstants.USERNAME_ALREADY_EXISTS ) );
         }
 
 
@@ -86,6 +93,6 @@ public class AuthService {
         userRepository.save( user );
 
         printMssg( user.getUsername( ) + " registered" );
-        return ResponseEntity.status( HttpStatus.CREATED ).body( new AuthResponse(token, AuthConstants.USER_REGISTERED_SUCCESSFULLY));
+        return ResponseEntity.status( HttpStatus.CREATED ).body( new AuthResponse( token ) );
     }
 }
