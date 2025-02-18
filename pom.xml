@@ -73,7 +73,6 @@
             <scope>runtime</scope>
         </dependency>
 
-
         <!-- Spring Boot Starter Validation: Para validar datos de entrada (por ejemplo, en DTO) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
