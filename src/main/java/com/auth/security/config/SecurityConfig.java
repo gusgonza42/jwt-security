@@ -11,22 +11,38 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Configuración de seguridad para la aplicación.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
     private final JwtTokenUtils jwtTokenUtils;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
+    /**
+     * Constructor de SecurityConfig.
+     *
+     * @param jwtTokenUtils               utilidad para la gestión de tokens JWT
+     * @param jwtAuthenticationEntryPoint punto de entrada de autenticación JWT
+     */
     public SecurityConfig( JwtTokenUtils jwtTokenUtils , JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint ) {
         this.jwtTokenUtils = jwtTokenUtils;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
     }
 
+    /**
+     * Configura la cadena de filtros de seguridad.
+     *
+     * @param http el objeto HttpSecurity para configurar la seguridad HTTP
+     * @return la cadena de filtros de seguridad configurada
+     * @throws Exception sí ocurre un error durante la configuración
+     */
     @Bean
     public SecurityFilterChain securityFilterChain( HttpSecurity http ) throws Exception {
         http.csrf( AbstractHttpConfigurer::disable )
                 .authorizeHttpRequests( auth -> auth
-                        .requestMatchers( "/auth/login" , "/auth/register", "/auth/hello" ).permitAll( )
+                        .requestMatchers( "/auth/login" , "/auth/register" , "/auth/hello" ).permitAll( )
                         .anyRequest( ).authenticated( )
                 )
                 .exceptionHandling( exception -> exception
