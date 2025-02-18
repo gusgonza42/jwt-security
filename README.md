@@ -1,24 +1,22 @@
-¡Entendido! Aquí tienes el `README` actualizado con la sección de integración que mencionamos antes, lista para que la
-añadas a tu archivo:
+# 🔐 **JwtSecurity**
+
+Sistema de Seguridad basado en JWT utilizando **Spring Boot**.
+
+## 📌 **Descripción**
+
+Este proyecto implementa un sistema de autenticación y autorización basado en **JSON Web Tokens (JWT)** utilizando **Spring Boot**.  
+Los usuarios pueden registrarse, iniciar sesión y acceder a endpoints protegidos mediante tokens JWT.
 
 ---
 
-# 🔐 JwtSecurity
-
-Sistema de Seguridad basado en JWT utilizando Spring Boot.
-
-## 📌 Descripción
-
-Este proyecto implementa un sistema de autenticación y autorización basado en **JSON Web Tokens (JWT)** utilizando *
-*Spring Boot**.  
-Los usuarios pueden registrarse, iniciar sesión y acceder a endpoints protegidos mediante tokens JWT.
-
-## 📋 Requisitos
+## 📋 **Requisitos**
 
 ✅ **Java 17**  
 ✅ **Maven**
 
-## ⚙️ Configuración
+---
+
+## ⚙️ **Configuración**
 
 1️⃣ **Clona el repositorio:**
 
@@ -48,9 +46,11 @@ mvn clean install
 mvn spring-boot:run
 ```  
 
-## 🚀 Uso
+---
 
-### 📝 Registro de Usuario
+## 🚀 **Uso**
+
+### 📝 **Registro de Usuario**
 
 Puedes registrar con campos básicos como `username`, `email` y `password`.
 
@@ -74,9 +74,11 @@ Puedes registrar con campos básicos como `username`, `email` y `password`.
 }
 ```  
 
-### 🔑 Inicio de Sesión
+---
 
-Puedes iniciar sesión con`username` y `password`. Para obtener un token JWT.
+### 🔑 **Inicio de Sesión**
+
+Puedes iniciar sesión con `username` y `password`. Para obtener un token JWT.
 
 🔹 **Endpoint**: `/auth/login`  
 🔹 **Método**: `POST`  
@@ -89,7 +91,7 @@ Puedes iniciar sesión con`username` y `password`. Para obtener un token JWT.
 }
 ```
 
-> [!TIP]
+> [!TIP]  
 > 🔑 **Login flexible:** Puedes iniciar sesión tanto con tu `username` como con tu `email`.
 
 ```json
@@ -100,11 +102,9 @@ Puedes iniciar sesión con`username` y `password`. Para obtener un token JWT.
 ```  
 
 > [!IMPORTANT]  
-> 📧 **Formato de correo válido:** El correo electrónico debe contener al menos una letra, un `@`, otra letra, un `.` y
-> al menos dos letras después del punto.  
+> 📧 **Formato de correo válido:** El correo electrónico debe contener al menos una letra, un `@`, otra letra, un `.` y al menos dos letras después del punto.  
 > ✅ **Ejemplo válido:** `usuario@dominio.com`  
 > ❌ **Ejemplo inválido:** `usuario@dominio,com` (usa `,` en lugar de `.`)
-
 
 🔹 **Respuesta**:
 
@@ -114,7 +114,9 @@ Puedes iniciar sesión con`username` y `password`. Para obtener un token JWT.
 }
 ```  
 
-### 🔐 Acceso a Endpoints Protegidos
+---
+
+### 🔐 **Acceso a Endpoints Protegidos**
 
 Puedes acceder a los endpoints protegidos enviando el token JWT en el encabezado `Authorization`.
 
@@ -126,28 +128,31 @@ Puedes acceder a los endpoints protegidos enviando el token JWT en el encabezado
 Authorization: Bearer <tu_token_jwt>
 ```  
 
-## 🚀 Cómo Integrar en Tu Proyecto
+---
 
-1. **Clona este repositorio** en tu máquina local (sin el `.git` si solo necesitas los archivos del proyecto):
+## 🚀 **Cómo Integrar en Tu Proyecto**
 
-    ```sh
-    git clone https://github.com/gusgonza42/jwt-security.git
-    ```
+1️⃣ **Clona este repositorio** en tu máquina local (sin el `.git` si solo necesitas los archivos del proyecto):
+
+   ```shell
+   git clone https://github.com/gusgonza42/jwt-security.git
+   ``` 
 
    ```sh
     cd JwtSecurity
     rm -rf .git // Linux
     Remove-Item -Recurse -Force .git // Windows
-    ```
+   ```
    
    El comando `rm -rf .git` elimina el historial de Git, permitiéndote usar solo los archivos del proyecto en tu propia aplicación sin que se vincule al repositorio original.
 
-2. **Integra el código en tu proyecto:**
+2️⃣ **Integra el código en tu proyecto:**
     - Copia los archivos del proyecto de `JwtSecurity` a tu proyecto principal o agrega este repositorio como un submódulo de Git si prefieres mantenerlo en un solo repositorio pero independiente.
     - Asegúrate de configurar correctamente las dependencias en tu `pom.xml` (si estás usando Maven) para que se integren sin problemas.
 
-3. **Configura las propiedades de la aplicación**:
+3️⃣ **Configura las propiedades de la aplicación:**
    Abre el archivo `src/main/resources/application.properties` y ajusta las configuraciones de JWT según lo necesario:
+
     ```properties
     # Configuración del puerto del servidor
     server.port=8081
@@ -158,7 +163,8 @@ Authorization: Bearer <tu_token_jwt>
     jwt.refreshThreshold=600000
     ```
 
-4. **Ejecuta la aplicación**:
+4️⃣ **Ejecuta la aplicación:**
+
     ```sh
     mvn clean install
     mvn spring-boot:run
@@ -166,20 +172,22 @@ Authorization: Bearer <tu_token_jwt>
 
 ---
 
-## 📦 Dependencias
+## 📦 **Dependencias**
 
-📌 Spring Boot Starter Web  
-📌 Spring Boot Starter Security  
-📌 Java JWT de Auth0  
-📌 JJWT  
-📌 Spring Boot Starter Validation  
-📌 Lombok  
-📌 Spring Boot Starter Data JPA  
-📌 MySQL Connector  
-📌 Spring Boot Actuator  
-📌 Spring Boot Starter Test
+📌 **Spring Boot Starter Web**  
+📌 **Spring Boot Starter Security**  
+📌 **Java JWT de Auth0**  
+📌 **JJWT**  
+📌 **Spring Boot Starter Validation**  
+📌 **Lombok**  
+📌 **Spring Boot Starter Data JPA**  
+📌 **MySQL Connector**  
+📌 **Spring Boot Actuator**  
+📌 **Spring Boot Starter Test**
 
-## 👨‍💻 Autor
+---
 
-- **📝 Nombre**: [gusgonza](https://github.com/gusgonza42)
-- **📧 Correo de contacto**: gusgonza@myyahoo.com
+## 👨‍💻 **Autor**
+
+- **📝 Nombre**: [gusgonza](https://github.com/gusgonza42)  
+- **📧 Correo de contacto**: gusgonza@myyahoo.com  
