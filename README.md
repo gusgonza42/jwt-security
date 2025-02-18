@@ -148,7 +148,7 @@ Authorization: Bearer <tu_token_jwt>
 
 2️⃣ **Integra el código en tu proyecto:**
     - Copia los archivos del proyecto de `JwtSecurity` a tu proyecto principal o agrega este repositorio como un submódulo de Git si prefieres mantenerlo en un solo repositorio pero independiente.
-    - Asegúrate de configurar correctamente las dependencias en tu `pom.xml` (si estás usando Maven) para que se integren sin problemas.
+    - Asegúrate de configurar correctamente las dependencias en tú `pom.xml` (si estás usando Maven) para que se integren sin problemas.
 
 3️⃣ **Configura las propiedades de la aplicación:**
    Abre el archivo `src/main/resources/application.properties` y ajusta las configuraciones de JWT según lo necesario:
@@ -167,18 +167,20 @@ Authorization: Bearer <tu_token_jwt>
 Para que funcione correctamente en tu aplicación, asegúrate de tener las siguientes dependencias en tu archivo pom.xml (si usas Maven):
 
    ```xml
+   <dependencies>
          <dependency>
-             <groupId>org.springframework.boot</groupId>
-             <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
          </dependency>
          <dependency>
-             <groupId>org.springframework.boot</groupId>
-             <artifactId>spring-boot-starter-security</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
          </dependency>
          <dependency>
-             <groupId>com.auth0</groupId>
-             <artifactId>java-jwt</artifactId>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
          </dependency>
+   </dependencies>
    ```
 
 5️⃣ **Ejecuta la aplicación:**
