@@ -14,23 +14,42 @@ import org.springframework.stereotype.Service;
 
 import static com.auth.security.util.Utils.printMssg;
 
-
+/**
+ * Servicio para la gestión de Authentication.
+ */
 @Service
 public class AuthService {
     private final JwtTokenUtils jwtTokenUtils;
     private final UserRepository userRepository;
 
+    /**
+     * Constructor de AuthService.
+     *
+     * @param jwtTokenUtils  Utilidad para la gestión de tokens JWT.
+     * @param userRepository Repositorio de usuarios.
+     */
     @Autowired
     public AuthService( JwtTokenUtils jwtTokenUtils , UserRepository userRepository ) {
         this.jwtTokenUtils = jwtTokenUtils;
         this.userRepository = userRepository;
     }
 
+    /**
+     * Endpoint para obtener un el estado del proyecto.
+     *
+     * @return ResponseEntity con el mensaje del estado del proyecto.
+     */
     public ResponseEntity< String > getHello( ) {
         printMssg( AuthConstants.HELLO_FROM_AUTH_PROJECT );
         return ResponseEntity.status( HttpStatus.OK ).body( AuthConstants.HELLO_FROM_AUTH_PROJECT );
     }
 
+    /**
+     * Endpoint para iniciar sesión.
+     *
+     * @param authRequest Solicitud de autenticación con credenciales del usuario.
+     * @return ResponseEntity con el token JWT o un mensaje de error.
+     */
     public ResponseEntity< ? > login( AuthRequest authRequest ) {
         try {
             if ( ( authRequest.getUsername( ) == null || authRequest.getUsername( ).isEmpty( ) ) &&
@@ -70,6 +89,12 @@ public class AuthService {
         }
     }
 
+    /**
+     * Endpoint para registrar un nuevo usuario.
+     *
+     * @param authRequest Solicitud de autenticación con credenciales del usuario.
+     * @return ResponseEntity con el token JWT o un mensaje de error.
+     */
     public ResponseEntity< ? > register( AuthRequest authRequest ) {
         User userByEmail = userRepository.findByEmail( authRequest.getEmail( ) );
         if ( userByEmail != null ) {
