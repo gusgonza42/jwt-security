@@ -14,6 +14,7 @@ import java.io.IOException;
 /**
  * Filtro para procesar solicitudes HTTP y validar tokens JWT.
  */
+@SuppressWarnings( "NullableProblems" )
 public class JwtRequestFilter extends OncePerRequestFilter {
     private final JwtTokenUtils jwtTokenUtils;
 
@@ -37,7 +38,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
      * @param response    la respuesta HTTP
      * @param filterChain la cadena de filtros
      * @throws ServletException si ocurre un error en el servlet
-     * @throws IOException      si ocurre un error de entrada/salida
+     * @throws IOException      sí ocurre un error de entrada/salida
      */
     @Override
     protected void doFilterInternal( HttpServletRequest request , HttpServletResponse response , FilterChain filterChain )
