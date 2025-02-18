@@ -153,7 +153,7 @@ Authorization: Bearer <tu_token_jwt>
 3️⃣ **Configura las propiedades de la aplicación:**
    Abre el archivo `src/main/resources/application.properties` y ajusta las configuraciones de JWT según lo necesario:
 
-    ```properties
+```properties
     # Configuración del puerto del servidor
     server.port=8081
 
@@ -161,7 +161,7 @@ Authorization: Bearer <tu_token_jwt>
     jwt.secret="CreateYourOwnSecretKey"
     jwt.expiration=3600000
     jwt.refreshThreshold=600000
-    ```
+```
 4️⃣ Dependencias Necesarias
 
 Para que funcione correctamente en tu aplicación, asegúrate de tener las siguientes dependencias en tu archivo pom.xml (si usas Maven):
@@ -185,7 +185,7 @@ Para que funcione correctamente en tu aplicación, asegúrate de tener las sigui
 
 5️⃣ **Ejecuta la aplicación:**
 
- ```sh
+ ```shell
     mvn clean install
     mvn spring-boot:run
  ```
