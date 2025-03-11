@@ -2,9 +2,7 @@ package com.auth.security.dto;
 
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -14,11 +12,20 @@ import jakarta.validation.constraints.NotBlank;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AuthRequest {
+    
+    @NotBlank( message = "El nombre es obligatorio" )
+    private String firstName;
+    
+    @NotBlank( message = "El apellido es obligatorio" )
+    private String lastName;
 
     /**
      * Nombre de usuario para la autenticación.
      */
+    @NotBlank( message = "El username es obligatorio" )
     private String username;
 
     /**

@@ -111,9 +111,11 @@ public class AuthService {
 
         String token = jwtTokenUtils.generateToken( authRequest.getUsername( ) );
         User user = new User( );
-        user.setUsername( authRequest.getUsername( ) );
+        user.setFirstName(authRequest.getFirstName());
+        user.setLastName(authRequest.getLastName());
+        user.setUsername( authRequest.getUsername( ));
         user.setEmail( authRequest.getEmail( ) );
-        user.setPassword( authRequest.getPassword( ) );
+        user.setPassword( authRequest.getPassword( ));
         user.setToken( token );
         userRepository.save( user );
 
