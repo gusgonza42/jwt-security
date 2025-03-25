@@ -135,4 +135,24 @@ public class AuthServiceJWT {
         printMssg( userJWT.getUsername( ) + " registered" );
         return ResponseEntity.status( HttpStatus.CREATED ).body( token );
     }
+
+    /**
+     * Valida un token JWT.
+     *
+     * @param token el token JWT a validar
+     * @return ResponseEntity con true si el token es válido, false en caso contrario
+     */
+    public ResponseEntity< Boolean > validateToken( String token ) {
+        try {
+            // Eliminar posibles comillas si el token viene entre comillas
+            token = token.replaceAll( "^\"|\"$" , "" );
+
+            boolean isValid = jwtTokenUtils.isValidToken( token );
+            printMssg( "Token validation result: " + isValid );
+            return ResponseEntity.ok( isValid );
+        } catch ( Exception e ) {
+            printMssg( "Error validating token: " + e.getMessage( ) );
+            return ResponseEntity.ok( false );
+        }
+    }
 }

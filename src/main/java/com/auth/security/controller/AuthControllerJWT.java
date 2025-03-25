@@ -57,4 +57,15 @@ public class AuthControllerJWT {
     public ResponseEntity< ? > register( @Valid @RequestBody AuthRequestJWT authRequestJWT ) {
         return authServiceJWT.register( authRequestJWT );
     }
+
+    /**
+     * Endpoint para validar un token JWT.
+     *
+     * @param token el token JWT a validar
+     * @return true si el token es válido, false en caso contrario
+     */
+    @PostMapping( "/validation" )
+    public ResponseEntity< Boolean > validateToken( @RequestBody String token ) {
+        return authServiceJWT.validateToken( token );
+    }
 }
