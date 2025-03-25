@@ -7,13 +7,13 @@ import java.time.format.DateTimeFormatter;
  * Clase de utilidades que proporciona métodos auxiliares para la aplicación.
  * Esta clase no debe ser instanciada.
  */
-public class Utils {
+public class UtilsJWT {
 
     /**
      * Constructor privado para evitar la instanciación de la clase de utilidades.
      * Lanza una IllegalStateException si se intenta instanciar.
      */
-    public Utils( ) {
+    public UtilsJWT( ) {
         throw new IllegalStateException( "Utility class" );
     }
 

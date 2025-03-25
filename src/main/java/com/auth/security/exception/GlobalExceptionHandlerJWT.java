@@ -14,7 +14,7 @@ import java.util.Map;
  * Utiliza @ControllerAdvice para permitir el manejo centralizado de excepciones.
  */
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandlerJWT {
 
     /**
      * Maneja excepciones de tipo MethodArgumentNotValidException.
