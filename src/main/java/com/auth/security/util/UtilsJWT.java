@@ -34,14 +34,13 @@ public class UtilsJWT {
 
         // Códigos de escape ANSI para colores
         String reset = "\u001B[0m";
-        String red = "\u001B[31m";
         String green = "\u001B[32m";
         String yellow = "\u001B[33m";
         String blue = "\u001B[34m";
         String purple = "\u001B[35m";
         String cyan = "\u001B[36m";
 
-        System.out.println( blue + "🌌 ¡Operación exitosa! 🌟  O " + red + "💥 ERROR EN LA NAVE 🚨" + reset + " - \n" +
+        System.out.println( blue + "🌌 ¡Operación exitosa! 🌟  \n" +
                 "[" + yellow + timestamp + reset + " - " + cyan + className + reset + "." + green + method + reset + "]: \n\n" +
                 purple + message + reset + "\n\n" +
                 "🚀🛸  || 🚧🛠️" + "\n" +
