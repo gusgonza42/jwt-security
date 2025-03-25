@@ -3,13 +3,13 @@ package com.auth.security.util;
 /**
  * Clase de constantes de autenticación.
  */
-public class AuthConstants {
+public class AuthConstantsJWT {
 
     /**
      * Constructor privado para evitar la instanciación de la clase de utilidades.
      * Lanza una IllegalStateException si se intenta instanciar.
      */
-    public AuthConstants( ) {
+    public AuthConstantsJWT( ) {
         throw new IllegalStateException( "Utility class" );
     }
 

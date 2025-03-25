@@ -13,7 +13,7 @@ ${AnsiColor.BRIGHT_CYAN}========================================================
     🔹 ${AnsiColor.BRIGHT_GREEN}Java Version: ${java.version} | JVM: ${java.vm.version} (${java.vm.vendor}) 🌒
     🔹 ${AnsiColor.BRIGHT_RED}Powered by Spring Boot: ${spring-boot.version} 🚀
 
-    🔹 ${AnsiColor.BRIGHT_WHITE}Executed by: ${user.name} | PID: ${PID} 🌟
+    🔹 ${AnsiColor.BRIGHT_WHITE}Executed by: ${userJWT.name} | PID: ${PID} 🌟
     🔹 ${AnsiColor.BRIGHT_GREEN}Active Profiles: ${spring.profiles.active} 🧑‍🚀
     🔹 ${AnsiColor.BRIGHT_YELLOW}API Base URL: http://localhost:${server.port}/ 🛸
 
